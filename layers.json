@@ -1,0 +1,53 @@
+[
+  {
+    "name": "project",
+    "desc": "项目",
+    "items": {
+      "wnt": {
+        "desc": "WNT!",
+        "config": {
+          "a": 1
+        }
+      }
+    }
+  },
+  {
+    "name": "env",
+    "desc": "环境",
+    "items": {
+      "production": {
+        "desc": "生产环境",
+        "config": {}
+      },
+      "test": {
+        "desc": "测试环境",
+        "config": {
+          "b": 1
+        }
+      }
+    }
+  },
+  {
+    "name": "cluster",
+    "desc": "集群",
+    "items": {
+      "wnt1": {
+        "desc": "wnt1!",
+        "config": {
+          "wntCode": "wnt1"
+        }
+      }
+    }
+  },
+  {
+    "name": "module",
+    "desc": "模块",
+    "items": {
+      "ping": {
+        "config": {
+          "c": 1
+        }
+      }
+    }
+  }
+]

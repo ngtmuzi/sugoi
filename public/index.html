@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>sugoi-front</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app"></div>
+
+<div id="ask-dlg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="询问框">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ask-title">确认操作</h4>
+            </div>
+            <div class="modal-body" id="ask-content">
+                确认操作吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="ask-btn-no" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="ask-btn-yes">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  function askDlg(title, content) {
+    return new Promise(function (resolve, reject) {
+      $('#ask-title').text(title || '确认操作');
+      $('#ask-content').text(content || '确认操作吗？');
+      $('#ask-btn-yes').one('click', function () {
+        resolve();
+        $('#ask-dlg').modal('hide');
+      });
+      $('#ask-dlg').modal('show').one('hidden.bs.modal', reject);
+    });
+  }
+
+  function request(url, method = 'GET', body) {
+    return fetch(url, {
+      method,
+      body       : JSON.stringify(body),
+      credentials: 'same-origin',
+      headers    : {"Content-Type": "application/json"}
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(parseReturn);
+  }
+
+  function parseReturn(message) {
+    if (message.code !== 200) throw new Error(message.msg);
+    else return message.msg;
+  }
+</script>
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/ace/1.2.6/ace.js"></script>
+<script src="/dist/build.js"></script>
+
+</body>
+</html>
