@@ -1,31 +1,26 @@
 [
   {
-    "name": "project",
-    "desc": "项目",
-    "items": {
-      "wnt": {
-        "desc": "WNT!",
-        "config": {
-          "a": 1
-        }
-      }
-    }
-  },
-  {
     "name": "env",
     "desc": "环境",
     "items": {
       "production": {
         "desc": "生产环境",
-        "config": {}
+        "config": {
+          "env": "production"
+        }
       },
       "test": {
         "desc": "测试环境",
         "config": {
-          "b": 1
+          "env": "test"
         }
       }
     }
+  },
+  {
+    "name": "project",
+    "desc": "项目",
+    "items": {}
   },
   {
     "name": "cluster",
@@ -34,7 +29,13 @@
       "wnt1": {
         "desc": "wnt1!",
         "config": {
-          "wntCode": "wnt1"
+          "clusterCode": "wnt1"
+        }
+      },
+      "wnt2": {
+        "desc": "wnt2",
+        "config": {
+          "clusterCode": "wnt2"
         }
       }
     }
@@ -45,7 +46,7 @@
     "items": {
       "ping": {
         "config": {
-          "c": 1
+          "ping": 1
         }
       }
     }

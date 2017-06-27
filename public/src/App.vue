@@ -130,7 +130,6 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
     <!--配置预览弹窗-->
     <div id="modal-preview" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -167,91 +166,26 @@
   import draggable from 'vuedraggable'
   import editor from './editor.vue'
   import lodash from 'lodash'
-
-  function getConfigByPath(layers = [], paths = []) {
-    let l          = 0;
-    let matchItems = [];
-    let result     = {};
-
-    for (let p = 0; p < paths.length; p++) {
-      while (l < layers.length) {
-        let _config = lodash.get(layers, [l++, 'items', paths[p], 'config']);
-
-        if (lodash.isPlainObject(_config)) {
-          matchItems.push(paths[p]);
-          lodash.mergeWith(result, _config, mergeFn);
-          break;
-        }
-      }
-    }
-    return result;
-  }
-
-  function mergeFn(target, source) {
-    if (lodash.isArray(target) || lodash.isArray(source)) {  //不合并数组，直接覆盖
-      return source;
-    }
-  }
+  import getConfigByPath from './getConfigByPath'
 
   export default {
-    name   : 'app',
+    name: 'app',
     data () {
       return {
         nowLayer      : null,
         allowEditLayer: false,
         previewCode   : {},
         modal         : {addLayer: {}, addItem: {}, preview: {}},
-        configLayers  : [
-          {
-            name : 'project',
-            desc : '项目',
-            items: {
-              wnt: {
-                desc  : 'WNT!',
-                config: {a: 1}
-              }
-            }
-          },
-
-          {
-            name : 'env',
-            desc : '环境',
-            items: {
-              production: {
-                desc  : '生产环境',
-                config: {}
-              },
-              test      : {
-                desc  : '测试环境',
-                config: {b: 1}
-              }
-            }
-          },
-
-          {
-            name : 'cluster',
-            desc : '集群',
-            items: {
-              wnt1: {
-                desc  : 'wnt1!',
-                config: {wntCode: 'wnt1'}
-              }
-            }
-          },
-
-          {
-            name : 'module',
-            desc : '模块',
-            items: {
-              ping: {
-                config: {c: 1}
-              }
-            }
-          }
-        ]
+        configLayers  : []
       }
     },
+
     methods: {
+      async reload(){
+        this.configLayers.splice(0, this.configLayers.length, ...await request('/getFullWebConfig'));
+        this.nowLayer = this.configLayers[0];
+      },
+
       previewConfig(){
         const paths      = this.configLayers.map(layer => this.modal.preview[layer.name]).filter(Boolean);
         this.previewCode = getConfigByPath(this.configLayers, paths);
@@ -303,7 +237,7 @@
       }
     },
     mounted(){
-      this.nowLayer = this.configLayers[0];
+      this.reload();
     },
 
     components: {draggable, editor}
