@@ -55,7 +55,7 @@
               </div>
               <div class="panel-collapse collapse in" :id="key">
                 <div class="panel-body">
-                  <editor :id="'e' + key" :content="item.config" @change="previewConfig()"></editor>
+                  <editor :id="'e' + key" :content="item.config" :readOnly="false" @change="previewConfig()"></editor>
                 </div>
               </div>
             </div>
@@ -152,7 +152,7 @@
               </div>
             </form>
             <hr>
-            <pre>{{previewCode}}</pre>
+            <editor :id="'previewCode'" :content="previewCode" :readOnly="true"></editor>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
